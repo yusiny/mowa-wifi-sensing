@@ -1,7 +1,7 @@
 argparse
 pandas
 numpy
-pickle
+# pickle
 pyyaml
 tqdm
 matplotlib
