@@ -46,7 +46,7 @@ class Tester_SVL:
         print("Device id: ", self.device_ids[0])
 
         print(f"Load Test Dataset.. # window_size:{self.win_size}")
-        test_data = SVLDataset(self.config['SVL']['dataset']['dataset_path'],
+        test_data = SVLDataset(self.config['SVL']['dataset']['test_dataset_path'],
                                 win_size=self.win_size,
                                 mode='test',
                                 train_proportion=self.train_proportion)
@@ -85,3 +85,5 @@ class Tester_SVL:
             test_loss = test_loss / total_iter
             test_acc = test_acc / total_iter
             print('Test Result -- Loss: {:.4f} Acc: {:.4f}'.format(test_loss, test_acc))
+            
+            # plot_confusion_matrix(conf_mat=conf_mat, classes=self.activities)
