@@ -122,6 +122,9 @@ class SVLDataset(data.Dataset):
         atvs = list()
         atvs = list(self.data_df.keys())
 
+        # 모든 데이터프레임의 최대 열 수 계산
+        max_cols = max([self.data_df[atv].shape[1] for atv in atvs]) - 2  # 첫 두 열은 제외
+        
         for idx, atv in enumerate(atvs):
             windows = list()
             df = self.data_df[atv]
@@ -136,6 +139,14 @@ class SVLDataset(data.Dataset):
                     wd = wd.apply(lambda x: x.abs())
                 
                 wd = wd.to_numpy()
+                
+                if wd.shape[1] < max_cols:
+                    # 부족한 열을 mean 값으로 채움
+                    diff = max_cols - wd.shape[1]
+                    mean_values = wd.mean(axis=1)
+                    padding = np.tile(mean_values[:, None], (1, diff))
+                    wd = np.hstack((wd, padding))
+                    
                 windows.append(wd)
             
             if self.mode == 'train':
@@ -146,6 +157,7 @@ class SVLDataset(data.Dataset):
                 data_y.extend([y_label for _ in range(len(windows))])
             
             win_data_x.extend(windows)
+            
         return np.array(win_data_x), np.array(data_y)
 
     def __len__(self):
