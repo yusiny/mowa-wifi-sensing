@@ -5,6 +5,7 @@ import torch.utils.data as data
 import numpy as np
 import pandas as pd
 from runner.utils import get_config, torch_seed
+from scipy.signal import savgol_filter  # 이동 평균 필터 대신 Savitzky-Golay 필터를 사용
 
 torch_seed(40)
 
@@ -89,13 +90,16 @@ class CSIDataset(data.Dataset):
 
 # Supervised learning dataset
 class SVLDataset(data.Dataset):
-    def __init__(self, data_path, win_size=10, mode='train', train_proportion=0.8, amp=True):
+    def __init__(self, data_path, win_size=10, mode='train', train_proportion=0.8, amp=True, filter_window=5, filter_polyorder=2):
         self.mode = mode
         self.win_size = win_size
         self.config = get_config('config.yaml')
         self.labels = self.config['SVL']['dataset']['activity_labels']
         self.amp = amp
         self.train_proportion = train_proportion
+        
+        self.filter_window = filter_window  # 필터 윈도우 크기
+        self.filter_polyorder = filter_polyorder  # 필터 다항식 차수
 
         # Read CSI file and convert to dataframe
         self.data_df = dict()
@@ -130,6 +134,15 @@ class SVLDataset(data.Dataset):
             df = self.data_df[atv]
 
             y_label = idx
+            
+            # Apply Savitzky-Golay filter to the real and imaginary parts separately
+            def filter_complex_series(series):
+                real_filtered = savgol_filter(series.apply(lambda z: np.real(complex(z))), self.filter_window, self.filter_polyorder)
+                imag_filtered = savgol_filter(series.apply(lambda z: np.imag(complex(z))), self.filter_window, self.filter_polyorder)
+                return real_filtered + 1j * imag_filtered
+            
+            for col in df.columns[2:]:
+                df[col] = filter_complex_series(df[col])
 
             for i in range(self.min_num_wd):
                 wd = df.iloc[i*self.win_size:i*self.win_size + self.win_size, 2:]
