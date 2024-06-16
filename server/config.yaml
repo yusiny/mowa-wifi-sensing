@@ -7,8 +7,9 @@ GPU:
 SVL:
     dataset:
         # dataset_path: ./csi_dataset/domain_A
-        dataset_path: ./csi_dataset/best
-        test_dataset_path: ./csi_dataset/domain_B
+        dataset_path: ./csi_dataset/cut/train
+        # test_dataset_path: ./csi_dataset/domain_B
+        test_dataset_path: ./csi_dataset/cut/test
         activity_labels: ["empty", "sit", "stand", "walk", "fall"]
         window_size: 10
         bandwidth: 20MHz
