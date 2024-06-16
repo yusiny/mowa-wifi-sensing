@@ -75,7 +75,7 @@ subcarrier:
 application:
     # Server
     server:
-        ip: "xxx.xxx.xxx.xxx"
+        ip: "192.9.201.189"
         port: 1111
 
     # Client
@@ -95,7 +95,8 @@ application:
             mlp_dim: 32
 
     SVL:
-        save_model_path: ./checkpoint/svl_vit/49.tar
+        # save_model_path: ./checkpoint/svl_vit/49.tar
+        save_model_path: ./checkpoint/svl_vit/svl_best_model.pt
 
     FSL:
         save_model_path: ./checkpoint/few_vit/best_model.pt
