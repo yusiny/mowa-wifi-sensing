@@ -6,7 +6,8 @@ GPU:
 # SVL parameters
 SVL:
     dataset:
-        dataset_path: ./csi_dataset/domain_A
+        # dataset_path: ./csi_dataset/domain_A
+        dataset_path: ./csi_dataset/best
         test_dataset_path: ./csi_dataset/domain_B
         activity_labels: ["empty", "sit", "stand", "walk", "fall"]
         window_size: 10
@@ -95,8 +96,8 @@ application:
             mlp_dim: 32
 
     SVL:
-        # save_model_path: ./checkpoint/svl_vit/49.tar
-        save_model_path: ./checkpoint/svl_vit/svl_best_model.pt
+        save_model_path: ./checkpoint/svl_vit/49.tar
+        # save_model_path: ./checkpoint/svl_vit/svl_best_model.pt
 
     FSL:
         save_model_path: ./checkpoint/few_vit/best_model.pt
