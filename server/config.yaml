@@ -7,7 +7,7 @@ GPU:
 SVL:
     dataset:
         # dataset_path: ./csi_dataset/domain_A
-        dataset_path: ./csi_dataset/cut/train
+        dataset_path: ./csi_dataset/05280616
         # test_dataset_path: ./csi_dataset/domain_B
         test_dataset_path: ./csi_dataset/cut/test
         activity_labels: ["empty", "sit", "stand", "walk", "fall"]
@@ -64,8 +64,8 @@ model:
         patch_size: 5
         embed_dim: 36
         num_layers: 8
-        num_heads: 9
-        mlp_dim: 32
+        num_heads: 12
+        mlp_dim: 128
 
 # number of subcarriers information
 subcarrier:
@@ -83,7 +83,7 @@ application:
     # Client
     client:
         mac: "b4b024d555e7"
-        window_size: 10
+        window_size: 14
         bandwidth: 20MHz
         activity_labels: ["empty", "sit", "stand", "walk", "fall"]
 
@@ -97,8 +97,11 @@ application:
             mlp_dim: 32
 
     SVL:
-        save_model_path: ./checkpoint/svl_vit/49.tar
+        # save_model_path: ./checkpoint/svl_vit/49.tar
         # save_model_path: ./checkpoint/svl_vit/svl_best_model.pt
+        # save_model_path: ./my_model/svl_best_model_06162.pt
+        save_model_path: ./my_model/svl_best_model_0528.pt
+        # save_model_path: ./my_model/svl_best_model_best.pt
 
     FSL:
         save_model_path: ./checkpoint/few_vit/best_model.pt
